@@ -1,0 +1,54 @@
+<!-- https://austinshigh.github.io/ttt2/ttt2.html -->
+
+<!DOCTYPE html>
+<head>
+    <title>Joes Hotdogs</title>
+    <script>
+        var menuA = [];
+        menuA["hotdogs"] = 4;
+        menuA["fries"] = 3.50;
+        menuA["soda"] = 1.50;
+        menuA["sauerkraut"] = 1;
+    
+        var menuB = {
+            hotdogs: 4,
+            fries: 3.50,
+            soda: 1.50,
+            sauerkraut: 1
+        }
+    
+        function MenuItem(name, cost){
+            this.name = name;
+            this.cost = cost;
+        }
+    
+        var menuC = [];
+        menuC[0] = new MenuItem("hotdogs", 4);
+        menuC[1] = new MenuItem("fries", 3.50);
+        menuC[2] = new MenuItem("soda", 1.50);
+        menuC[3] = new MenuItem("sauerkraut", 1);
+    
+        function displayJson(menu){
+            document.write( "<ul class=menu>");
+            Object.keys(menu).forEach((item) => {
+                document.write( `<li class=item>${item} - $${menu[item]}</li>` );
+            });
+            document.write( "</ul>");
+        }
+    
+        function displayObjects(menu){
+            document.write( "<ul class=menu>");
+            menu.forEach((item) => {
+                document.write( `<li class=item>${item.name} - $${item.cost}</li>` );
+            });
+            document.write( "</ul>");
+        }
+    
+        displayJson(menuB);
+    
+        displayObjects(menuC);
+    </script>
+</head>
+<body>
+</body>
+</html>
