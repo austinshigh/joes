@@ -1,0 +1,117 @@
+<!-- https://austinshigh.github.io/ttt2/ttt2.html -->
+
+<!DOCTYPE html>
+<head>
+    <title>Joes Hotdogs</title>
+    <style type="text/css">
+	    #cart{height: 200px; width: 315px; margin: 10px; border: 1px; border-color: black; border-style: solid;}
+		#menuContainer {text-align: left; width: 315px; margin: 10px; border: 1px; border-color: black; border-style: solid;}
+        button{margin: 10px;}
+        input{margin: 10px;}
+        h3{margin: 10px};
+	</style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <h3>Menu</h3>
+    <div id="menuContainer"></div>
+    <input id="searchBox" placeholder="Item Name"></input>
+    <button id="addToCart">Add to Cart</button>
+    <h3>Cart</h3>
+    <div id="cart"></div>
+    <button id="checkout">Checkout</button>
+</body>
+<script>
+    var menuA = [];
+    menuA["hotdogs"] = 4;
+    menuA["fries"] = 3.50;
+    menuA["soda"] = 1.50;
+    menuA["sauerkraut"] = 1;
+
+    var menuB = {
+        hotdogs: 4,
+        fries: 3.50,
+        soda: 1.50,
+        sauerkraut: 1
+    }
+
+    function MenuItem(name, cost){
+        this.name = name;
+        this.cost = cost;
+    }
+
+    var menuC = [];
+    menuC[0] = new MenuItem("hotdogs", 4);
+    menuC[1] = new MenuItem("fries", 3.50);
+    menuC[2] = new MenuItem("soda", 1.50);
+    menuC[3] = new MenuItem("sauerkraut", 1);
+
+    const menuContainer = $('#menuContainer');
+
+    function displayJson(menu){
+        let htmlList = "<ul class=menu>";
+        Object.keys(menu).forEach((item) => {
+           htmlList = htmlList + ( `<li class=item>${item} - $${menu[item]}</li>` );
+        });
+       htmlList = htmlList + ( "</ul>");
+       menuContainer.html(htmlList);
+    }
+
+    displayJson(menuB);
+
+    function ShoppingCart(menu){
+        var menuA = [];
+        menuA["hotdogs"] = 4;
+        menuA["fries"] = 3.50;
+        menuA["soda"] = 1.50;
+        menuA["sauerkraut"] = 1;
+    }
+
+    var shoppingCart = [];
+    shoppingCart[menuC[0].name] = 0;
+    shoppingCart[menuC[1].name] = 0;
+    shoppingCart[menuC[2].name] = 0;
+    shoppingCart[menuC[3].name] = 0;
+
+
+    let search = $('#searchBox');
+    const cartContainer = $('#cart');
+    const addToCart = $('#addToCart');
+    const checkout = $('#checkout');
+
+    addToCart.on("click", () => {
+        let cartDetails = "<ul id=cartDetails>";
+        let searchEntry = search.val().toLowerCase();
+        Object.keys(shoppingCart).forEach((menuItem) => {
+            if (menuItem === searchEntry){
+                shoppingCart[menuItem] = shoppingCart[menuItem] + 1;
+            }
+            if (shoppingCart[menuItem] > 0){
+                cartDetails = cartDetails + `<li class=item>${menuItem} - ${shoppingCart[menuItem]}</li>`
+            }
+        })
+        cartDetails = cartDetails + ( "</ul>");
+        cartContainer.html(cartDetails);
+    })
+
+    function Checkout(cart, menu){
+        let total = 0;
+        let receipt = "";
+        let currentItemTotal = 0;
+        Object.keys(shoppingCart).forEach((item) => {
+            if (shoppingCart[item] > 0){
+                total = total + (menuA[item] * shoppingCart[item]);
+                currentItemTotal = menuA[item] * shoppingCart[item];
+                receipt = receipt + `${item} - cost per: ${menu[item]} - total cost: $${currentItemTotal}\n`;
+                shoppingCart[item] = 0;
+            }
+        })
+        receipt = receipt + "total overall cost: $" + total;
+        alert(receipt);
+        cartContainer.html("");
+    } 
+
+    checkout.on("click", () => Checkout(shoppingCart, menuA));
+    
+</script>
+</html>
